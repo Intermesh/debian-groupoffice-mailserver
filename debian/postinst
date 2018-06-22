@@ -1,7 +1,10 @@
 #!/bin/sh
 set -e
 
-useradd -r -u 150 -g mail -d /var/mail/vhosts -m -s /sbin/nologin -c "Virtual Mailbox" vmail
+if ! id -u mail >/dev/null 2>&1; then
+	useradd -r -u 150 -g mail -d /var/mail/vhosts -m -s /sbin/nologin -c "Virtual Mailbox" vmail
+fi
+
 chown vmail:mail /var/mail/vhosts
 
 #disable default system auth because it slows down the login
