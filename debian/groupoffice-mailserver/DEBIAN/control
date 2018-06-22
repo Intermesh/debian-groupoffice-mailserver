@@ -3,8 +3,7 @@ Version: 6.3.7
 Architecture: all
 Maintainer: Merijn Schering <mschering@intermesh.nl>
 Installed-Size: 33
-Depends: postfix, postfix-mysql, dovecot-imapd, dovecot-mysql, dovecot-lmtpd, dovecot-sieve, dovecot-managesieved, dbconfig-common, ucf (>= 0.28)
-Conflicts: groupoffice-billing, groupoffice-com, groupoffice-documents, groupoffice-pro
+Depends: groupoffice, postfix, postfix-mysql, dovecot-imapd, dovecot-mysql, dovecot-lmtpd, dovecot-sieve, dovecot-managesieved, dbconfig-common, ucf (>= 0.28)
 Section: mail
 Priority: extra
 Homepage: https://www.group-office.com

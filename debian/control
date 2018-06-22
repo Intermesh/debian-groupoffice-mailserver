@@ -8,7 +8,8 @@ Homepage: https://www.group-office.com
 
 Package: groupoffice-mailserver
 Architecture: all
-Depends: 
+Depends:
+  groupoffice,
   postfix,
   postfix-mysql,
   dovecot-imapd,
@@ -20,10 +21,6 @@ Depends:
 	${perl:Depends},
 	dbconfig-common,
 	ucf (>= 0.28)
-Conflicts: groupoffice-com,
-	groupoffice-pro,
-	groupoffice-billing,
-	groupoffice-documents
 Description:
  Group-Office is a web based groupware and CRM application
  Take your office online. Share projects, calendars, files and e-mail online 

@@ -35,8 +35,10 @@ require('/usr/share/groupoffice/GO.php');
 try{	
 	if(!\GO::modules()->isInstalled('postfixadmin')){
 		$module = new \GO\Base\Model\Module();
-		$module->id = 'postfixadmin';
-		$module->save();
+		$module->name = 'postfixadmin';
+		if(!$module->save()) {
+			var_dump($module->getValidationErrors());
+		}
 	}	
 }
 catch(Exception $e){
