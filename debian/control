@@ -10,6 +10,7 @@ Package: groupoffice-mailserver
 Architecture: all
 Depends:
   groupoffice,
+  php-cli,
   postfix,
   postfix-mysql,
   dovecot-imapd,

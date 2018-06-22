@@ -1,2 +1,2 @@
-groupoffice-mailserver_6.3.1_all.deb mail extra
-groupoffice-mailserver_6.3.1_amd64.buildinfo mail extra
+groupoffice-mailserver_6.3.1-php-71_all.deb mail extra
+groupoffice-mailserver_6.3.1-php-71_amd64.buildinfo mail extra

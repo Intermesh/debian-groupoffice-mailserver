@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 useradd -r -u 150 -g mail -d /var/mail/vhosts -m -s /sbin/nologin -c "Virtual Mailbox" vmail
 chown vmail:mail /var/mail/vhosts

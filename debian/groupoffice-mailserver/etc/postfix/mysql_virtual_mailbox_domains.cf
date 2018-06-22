@@ -1,9 +1,0 @@
-user = groupoffice
-password = groupoffice
-hosts = localhost
-dbname = localhost
-
-table = pa_domains
-select_field = domain
-where_field = domain
-additional_conditions = and backupmx = '0' and active = '1'

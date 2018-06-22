@@ -1,8 +1,0 @@
-user = groupoffice
-password = groupoffice
-hosts = localhost
-dbname = localhost
-table = pa_aliases
-select_field = goto
-where_field = address
-additional_conditions = and active = '1'

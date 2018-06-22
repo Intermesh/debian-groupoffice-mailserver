@@ -1,8 +1,0 @@
-user = groupoffice
-password = groupoffice
-hosts = localhost
-dbname = localhost
-table = pa_mailboxes
-select_field = maildir
-where_field = username
-additional_conditions = and active = '1'
