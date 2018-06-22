@@ -1,0 +1,5 @@
+/etc/dovecot/conf.d/99-groupoffice.conf
+/etc/dovecot/dovecot-sql.conf.ext
+/etc/postfix/mysql_virtual_alias_maps.cf
+/etc/postfix/mysql_virtual_mailbox_domains.cf
+/etc/postfix/mysql_virtual_mailbox_maps.cf

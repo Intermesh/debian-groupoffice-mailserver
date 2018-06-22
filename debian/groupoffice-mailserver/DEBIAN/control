@@ -1,0 +1,15 @@
+Package: groupoffice-mailserver
+Version: 6.3.7
+Architecture: all
+Maintainer: Merijn Schering <mschering@intermesh.nl>
+Installed-Size: 33
+Depends: postfix, postfix-mysql, dovecot-imapd, dovecot-mysql, dovecot-lmtpd, dovecot-sieve, dovecot-managesieved, dbconfig-common, ucf (>= 0.28)
+Conflicts: groupoffice-billing, groupoffice-com, groupoffice-documents, groupoffice-pro
+Section: mail
+Priority: extra
+Homepage: https://www.group-office.com
+Description:
+ Group-Office is a web based groupware and CRM application
+ Take your office online. Share projects, calendars, files and e-mail online
+ with co-workers and clients. Easy to use and fully customizable, Group-Office
+ takes online collaboration to the next level.

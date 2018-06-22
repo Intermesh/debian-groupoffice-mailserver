@@ -1,0 +1,5 @@
+etc/dovecot/conf.d/99-groupoffice.conf etc/dovecot/conf.d
+etc/dovecot/dovecot-sql.conf.ext etc/dovecot
+etc/postfix etc
+var/mail/vhosts var/mail
+usr/bin/configure-groupoffice-mailserver.php usr/bin
