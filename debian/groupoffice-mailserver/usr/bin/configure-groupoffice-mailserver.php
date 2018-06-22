@@ -7,16 +7,16 @@ echo "Applying group-office database credentials to /etc/dovecot/dovecot-sql.con
 $dovecotConnectStr = 'connect = "host='.$config['db_host'].' dbname='.$config['db_name'].' user='.$config['db_user'].' password='.$config['db_pass'].'"';
 
 $data = file_get_contents('/etc/dovecot/dovecot-sql.conf.ext');
-preg_replace('/connect = ".*"/', $dovecotConnectStr, $data);
+$data = preg_replace('/connect = ".*"/', $dovecotConnectStr, $data);
 file_put_contents('/etc/dovecot/dovecot-sql.conf.ext', $data);
 
 function replacePostfixCred($config, $file) {
 	
 	$data = file_get_contents($file);
-	preg_replace('/user = .*/', 'user = '.$config['db_user'], $data);
-	preg_replace('/password = .*/', 'password = '.$config['db_pass'], $data);
-	preg_replace('/hosts = .*/', 'hosts = '.$config['db_host'], $data);
-	preg_replace('/dbname = .*/', 'dbname = '.$config['db_name'], $data);
+	$data = preg_replace('/user = .*/', 'user = '.$config['db_user'], $data);
+	$data = preg_replace('/password = .*/', 'password = '.$config['db_pass'], $data);
+	$data = preg_replace('/hosts = .*/', 'hosts = '.$config['db_host'], $data);
+	$data = preg_replace('/dbname = .*/', 'dbname = '.$config['db_name'], $data);
 	
 	file_put_contents($file, $data);
 

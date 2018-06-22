@@ -49,3 +49,6 @@ postconf -P "submission/inet/smtpd_recipient_restrictions=permit_mynetworks,perm
 
 
 /usr/bin/configure-groupoffice-mailserver.php
+
+invoke-rc.d postfix restart
+invoke-rc.d dovecot restart
