@@ -22,7 +22,7 @@ Depends:
 	${perl:Depends},
 	dbconfig-common,
 	ucf (>= 0.28)
-Description:
+Description: Group-Office Mail server
  Group-Office is a web based groupware and CRM application
  Take your office online. Share projects, calendars, files and e-mail online 
  with co-workers and clients. Easy to use and fully customizable, Group-Office 
