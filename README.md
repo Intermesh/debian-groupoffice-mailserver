@@ -2,7 +2,7 @@
 Debian package for Group-Office mailserver configuration.
 
 To build:
-1. Edit debian/changelog with version and repo 63-php70.
+1. Edit debian/changelog with version and repo 63-php-70.
 2. run inside directory:
    ```
    debuild --no-lintian -b
