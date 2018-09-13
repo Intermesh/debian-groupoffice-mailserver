@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-if ! id -u mail >/dev/null 2>&1; then
+if ! id -u vmail >/dev/null 2>&1; then
+	echo "Adding new user 'vmail' (UID=150) with group 'mail'";	
 	useradd -r -u 150 -g mail -d /var/mail/vhosts -m -s /sbin/nologin -c "Virtual Mailbox" vmail
 fi
 
