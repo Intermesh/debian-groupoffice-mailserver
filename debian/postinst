@@ -7,6 +7,7 @@ if ! id -u vmail >/dev/null 2>&1; then
 fi
 
 chown vmail:mail /var/mail/vhosts
+chown -R vmail:mail /var/lib/dovecot/db
 
 #disable default system auth because it slows down the login
 sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf

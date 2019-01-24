@@ -3,3 +3,4 @@ etc/dovecot/dovecot-groupoffice-sql.conf.ext etc/dovecot
 etc/postfix etc
 usr/bin/configure-groupoffice-mailserver.php usr/bin
 var/mail/vhosts/default.sieve var/mail/vhosts
+var/lib/dovecot/db var/lib/dovecot

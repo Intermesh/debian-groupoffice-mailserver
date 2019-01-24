@@ -38,13 +38,11 @@ try{
 		$module->name = 'postfixadmin';
 		if(!$module->save()) {
 			var_dump($module->getValidationErrors());
-		}
-	}	
+		}	
+	}
 }
 catch(Exception $e){
 	echo 'ERROR: '.$e->getMessage();
 }
-
-
 
 echo "done\n";
