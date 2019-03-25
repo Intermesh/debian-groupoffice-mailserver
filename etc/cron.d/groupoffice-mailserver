@@ -1,0 +1,1 @@
+1 2 * * * root /usr/share/groupoffice/groupofficecli.php -r=postfixadmin/mailbox/cacheUsage -c=/etc/groupoffice/config.php -q > /dev/null
