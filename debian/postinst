@@ -18,7 +18,7 @@ cp /etc/hostname /etc/mailname
 
 # SASL settings
 # This will make Postfix authenticate users via Dovecot. Users mail clients will connect directly to Postfix for sending mail and we need them to authenticate.
-postconf -e 'smtpd_sasl_auth_enable = yes' && \
+postconf -e 'smtpd_sasl_auth_enable = no' && \
 postconf -e 'smtpd_sasl_type = dovecot' && \
 postconf -e 'smtpd_sasl_path = private/auth' && \
 postconf -e 'smtpd_sasl_authenticated_header = yes' && \
