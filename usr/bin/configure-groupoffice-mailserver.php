@@ -19,7 +19,7 @@ function replacePostfixCred($config, $file) {
 	
 	$data = file_get_contents($file);
 	$data = preg_replace('/user = .*/', 'user = '.$config['db_user'], $data);
-	$data = preg_replace('/password = .*/', 'password = '.$config['db_pass'], $data);
+	$data = preg_replace('/password = .*/', 'password = '.escape_backreference($config['db_pass']), $data);
 	$data = preg_replace('/hosts = .*/', 'hosts = '.$config['db_host'], $data);
 	$data = preg_replace('/dbname = .*/', 'dbname = '.$config['db_name'], $data);
 	
