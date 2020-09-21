@@ -6,8 +6,13 @@ echo "Applying group-office database credentials to /etc/dovecot/dovecot-sql.con
 
 $dovecotConnectStr = 'connect = "host='.$config['db_host'].' dbname='.$config['db_name'].' user='.$config['db_user'].' password='.$config['db_pass'].'"';
 
+// will escape dollar followed by digest
+function escape_backreference($x){
+    return preg_replace('/\$(\d)/', '\\\$$1', $x);
+}
+
 $data = file_get_contents('/etc/dovecot/dovecot-groupoffice-sql.conf.ext');
-$data = preg_replace('/connect = ".*"/', $dovecotConnectStr, $data);
+$data = preg_replace('/connect = ".*"/', escape_backreference($dovecotConnectStr), $data);
 file_put_contents('/etc/dovecot/dovecot-groupoffice-sql.conf.ext', $data);
 
 function replacePostfixCred($config, $file) {
