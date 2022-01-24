@@ -21,7 +21,7 @@ cp /etc/hostname /etc/mailname
 postconf -e 'smtpd_sasl_auth_enable = no' && \
 postconf -e 'smtpd_sasl_type = dovecot' && \
 postconf -e 'smtpd_sasl_path = private/auth' && \
-postconf -e 'smtpd_sasl_authenticated_header = yes' && \
+postconf -e 'smtpd_sasl_authenticated_header = no' && \
 postconf -e 'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_non_fqdn_sender, reject_non_fqdn_recipient, reject_unauth_destination, reject_unauth_pipelining, reject_invalid_hostname, reject_unknown_sender_domain permit' && \
 postconf -e 'smtpd_data_restrictions = reject_unauth_pipelining, reject_multi_recipient_bounce, permit' && \
 postconf -e 'smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination' && \
