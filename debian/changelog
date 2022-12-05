@@ -1,5 +1,5 @@
-groupoffice-mailserver (6.6.2) sixsix; urgency=medium
+groupoffice-mailserver (6.6.3) sixsix; urgency=medium
 
   * Changes can be found in /usr/share/groupoffice/changelog.md
 
- -- Intermesh BV (Developer key) <info@intermesh.nl>  Tue, 15 Mar 2022 09:25:00 +0100
+ -- Intermesh BV (Developer key) <info@intermesh.nl>  Mon, 05 Dec 2022 09:25:00 +0100
