@@ -38,7 +38,7 @@ require('/usr/share/groupoffice/GO.php');
 \GO::setIgnoreAclPermissions();
 
 try{	
-	if(!\GO::modules()->isInstalled('postfixadmin')){
+	if(\App::get()->isInstalled() && !\GO::modules()->isInstalled('postfixadmin')){
 		$module = new \GO\Base\Model\Module();
 		$module->name = 'postfixadmin';
 		if(!$module->save()) {
