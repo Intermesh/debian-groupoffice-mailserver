@@ -32,12 +32,12 @@ replacePostfixCred($config, '/etc/postfix/mysql_virtual_mailbox_domains.cf');
 replacePostfixCred($config, '/etc/postfix/mysql_virtual_mailbox_maps.cf');
 
 echo "Installing postfixadmin module in Group-Office\n";
+try{
+	require('/usr/share/groupoffice/GO.php');
 
-require('/usr/share/groupoffice/GO.php');
+    \GO::setIgnoreAclPermissions();
 
-\GO::setIgnoreAclPermissions();
 
-try{	
 	if(\App::get()->isInstalled() && !\GO::modules()->isInstalled('postfixadmin')){
 		$module = new \GO\Base\Model\Module();
 		$module->name = 'postfixadmin';
@@ -47,7 +47,7 @@ try{
 	}
 }
 catch(Exception $e){
-	echo 'ERROR: '.$e->getMessage();
+	// ignore as GO might not be installed yet.
 }
 
 echo "done\n";
