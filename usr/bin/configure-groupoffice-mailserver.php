@@ -38,7 +38,7 @@ try{
     \GO::setIgnoreAclPermissions();
 
 
-	if(\App::get()->isInstalled() && !\GO::modules()->isInstalled('postfixadmin')){
+	if(\go\core\App::get()->isInstalled() && !\GO::modules()->isInstalled('postfixadmin')){
 		$module = new \GO\Base\Model\Module();
 		$module->name = 'postfixadmin';
 		if(!$module->save()) {
@@ -46,7 +46,7 @@ try{
 		}	
 	}
 }
-catch(Exception $e){
+catch(\Exception $e){
 	// ignore as GO might not be installed yet.
 }
 
