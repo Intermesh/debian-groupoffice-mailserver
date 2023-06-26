@@ -1,6 +1,13 @@
 #!/bin/sh
 set -e
 
+# only configure everything once
+if [ ! -f /etc/postfix/groupoffice ]; then
+  exit 0
+fi
+
+echo "If you remove this file the groupoffice-mailserver will reconfigure postfix on the next upgrade" > /etc/postfix/groupoffice;
+
 if ! id -u vmail >/dev/null 2>&1; then
 	echo "Adding new user 'vmail' (UID=150) with group 'mail'";	
 	useradd -r -u 150 -g mail -d /var/mail/vhosts -m -s /sbin/nologin -c "Virtual Mailbox" vmail
