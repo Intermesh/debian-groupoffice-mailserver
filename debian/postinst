@@ -2,7 +2,7 @@
 set -e
 
 # only configure everything once
-if [ ! -f /etc/postfix/groupoffice ]; then
+if [ -f /etc/postfix/groupoffice ]; then
   exit 0
 fi
 
