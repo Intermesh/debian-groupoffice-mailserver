@@ -18,6 +18,7 @@ Depends:
   dovecot-lmtpd,
   dovecot-sieve,
   dovecot-managesieved,
+  dovecot-fts-xapian,
 	${misc:Depends},
 	${perl:Depends},
 	dbconfig-common,
