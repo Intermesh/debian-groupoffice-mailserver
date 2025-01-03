@@ -3,7 +3,7 @@
 require ("/etc/groupoffice/config.php");
 /* @var $config array */
 
-echo "Applying group-office database credentials to /etc/dovecot/dovecot-sql.conf.ext and /etc/postfix/mysql_*\n";
+echo "Applying group-office database credentials to /etc/opendkim.conf /etc/dovecot/dovecot-sql.conf.ext and /etc/postfix/mysql_*\n";
 
 
 // will escape dollar followed by digest
@@ -24,6 +24,7 @@ replaceDovecotCred($config,'/etc/dovecot/dovecot-groupoffice-sql.conf.ext');
 replaceDovecotCred($config,'/etc/dovecot/domain-owner-sql.conf.ext');
 replaceDovecotCred($config,'/etc/dovecot/dovecot-dict-sql.conf.ext');
 
+copy("/etc/opendkim.conf.tpl", "/etc/opendkim.conf");
 
 $data = file_get_contents('/etc/opendkim.conf');
 $data = preg_replace('/SigningTable.*/', 'SigningTable dsn:mysql://'.$config['db_user'].':'.escape_backreference($config['db_pass']).'@'.$config['db_host'].'/'.$config['db_name'].'/table=community_maildomains_dkim?keycol=domain?datacol=id', $data);
