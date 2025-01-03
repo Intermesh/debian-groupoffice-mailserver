@@ -19,6 +19,8 @@ Depends:
   dovecot-sieve,
   dovecot-managesieved,
   dovecot-fts-xapian,
+  opendkim,
+  libopendbx1-mysql,
 	${misc:Depends},
 	${perl:Depends},
 	dbconfig-common,

@@ -1,7 +1,7 @@
-etc/dovecot/conf.d/99-groupoffice.conf etc/dovecot/conf.d
-etc/dovecot/dovecot-groupoffice-sql.conf.ext etc/dovecot
+etc/dovecot etc/dovecot
 etc/postfix etc
 etc/cron.d/groupoffice-mailserver etc/cron.d
 usr/bin/configure-groupoffice-mailserver.php usr/bin
 var/mail/vhosts/default.sieve var/mail/vhosts
 var/lib/dovecot/db var/lib/dovecot
+etc/opendkim.conf etc

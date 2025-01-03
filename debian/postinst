@@ -52,6 +52,7 @@ postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp' && \
 postconf -e 'default_destination_concurrency_limit = 5' && \
 postconf -e 'relay_destination_concurrency_limit = 1' && \
 postconf -e 'message_size_limit = 20480000' && \
+postconf -e 'smtpd_milters = unix:opendkim/opendkim.sock' && \
 postconf -M submission/inet="submission   inet   n   -   n   -   -   smtpd" && \
 postconf -P "submission/inet/syslog_name=postfix/submission" && \
 postconf -P "submission/inet/smtpd_tls_security_level=encrypt" && \
@@ -69,7 +70,11 @@ postconf -P "subcleanup/unix/header_checks=regexp:/etc/postfix/submission_header
 postconf -P "submission/inet/smtpd_client_message_rate_limit=10" && \
 postconf -P "submission/inet/anvil_rate_time_unit=60s" && \
 postconf -P "submission/inet/cleanup_service_name=subcleanup" && \
-/usr/bin/configure-groupoffice-mailserver.php
+/usr/bin/configure-groupoffice-mailserver.php && \
+usermod -a -G opendkim postfix && \
+mkdir -p /var/spool/postfix/opendkim && \
+chown opendkim:opendkim /var/spool/postfix/opendkim
 
 invoke-rc.d postfix restart
 invoke-rc.d dovecot restart
+invoke-rc.d opendkim restart
