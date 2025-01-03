@@ -20,9 +20,9 @@ function replaceDovecotCred($config, $file) {
 	file_put_contents($file, $data);
 }
 
-replaceDovecotCred($config,'/etc/dovecot/dovecot-groupoffice-sql.conf.ext');
-replaceDovecotCred($config,'/etc/dovecot/domain-owner-sql.conf.ext');
-replaceDovecotCred($config,'/etc/dovecot/dovecot-dict-sql.conf.ext');
+replaceDovecotCred($config,'/etc/dovecot/groupoffice-sql.conf.ext');
+replaceDovecotCred($config,'/etc/dovecot/groupoffice-domain-owner-sql.conf.ext');
+replaceDovecotCred($config,'/etc/dovecot/groupoffice-dict-sql.conf.ext');
 
 copy("/etc/opendkim.conf.tpl", "/etc/opendkim.conf");
 
