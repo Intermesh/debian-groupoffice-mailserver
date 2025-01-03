@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+
+dpkg-divert --quiet --add --rename --package groupoffice-mailserver --divert /etc/opendkim.conf.original /etc/opendkim.conf

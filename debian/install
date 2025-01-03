@@ -1,4 +1,4 @@
-etc/dovecot etc/dovecot
+etc/dovecot etc
 etc/postfix etc
 etc/cron.d/groupoffice-mailserver etc/cron.d
 usr/bin/configure-groupoffice-mailserver.php usr/bin
