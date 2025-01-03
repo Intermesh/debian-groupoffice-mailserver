@@ -4,4 +4,4 @@ etc/cron.d/groupoffice-mailserver etc/cron.d
 usr/bin/configure-groupoffice-mailserver.php usr/bin
 var/mail/vhosts/default.sieve var/mail/vhosts
 var/lib/dovecot/db var/lib/dovecot
-etc/opendkim.conf etc
+etc/opendkim.conf.tpl etc
