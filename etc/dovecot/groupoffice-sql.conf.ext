@@ -6,7 +6,7 @@ user_query = SELECT \
     CONCAT('/var/mail/vhosts/',homedir) AS home, \
     CONCAT('maildir:/var/mail/vhosts/',maildir) AS mail, \
     150 AS uid, 8 AS gid, \
-    CONCAT('*:storage=', quota) AS quota_rule, \
+    CONCAT('*:storage=', quota, 'B') AS quota_rule, \
     IF(fts, 'xapian', null) as fts, \
     IF(fts, '+XFTS', null) as imap_capability, \
     'Trash Spam' as 'namespace/inbox/mailbox', \
@@ -21,7 +21,7 @@ password_query = SELECT \
     CONCAT('/var/mail/vhosts/',homedir) AS userdb_home, \
     CONCAT('maildir:/var/mail/vhosts/', maildir) AS userdb_mail, \
     150 AS userdb_uid, 8 AS userdb_gid, \
-    CONCAT('*:storage=', quota) AS userdb_quota_rule, \
+    CONCAT('*:storage=', quota, 'B') AS userdb_quota_rule, \
     IF(fts, "xapian", null) as userdb_fts, \
     IF(fts, "+XFTS", null) as userdb_imap_capability, \
     'Trash Spam' as 'namespace/inbox/mailbox', \
@@ -44,7 +44,7 @@ iterate_query = SELECT username AS user FROM community_maildomains_mailbox
 #    CONCAT('/var/mail/vhosts/',homedir) AS home, \
 #    CONCAT('maildir:/var/mail/vhosts/',maildir, ':INDEX=/var/indexes/%u:ITERINDEX') AS mail, \
 #    150 AS uid, 8 AS gid, \
-#    CONCAT('*:storage=', quota) AS quota_rule, \
+#    CONCAT('*:storage=', quota, 'bytes') AS quota_rule, \
 #    IF(fts, 'xapian', null) as fts, \
 #    IF(fts, '+XFTS', null) as imap_capability, \
 #    'Trash Spam' as 'namespace/inbox/mailbox', \
@@ -59,7 +59,7 @@ iterate_query = SELECT username AS user FROM community_maildomains_mailbox
 #    CONCAT('/var/mail/vhosts/',homedir) AS userdb_home, \
 #    CONCAT('maildir:/var/mail/vhosts/', maildir, ':INDEX=/var/indexes/%u:ITERINDEX') AS userdb_mail, \
 #    150 AS userdb_uid, 8 AS userdb_gid, \
-#    CONCAT('*:storage=', quota) AS quota_rule, \
+#    CONCAT('*:storage=', quota, 'bytes') AS quota_rule, \
 #    IF(fts, "xapian", null) as userdb_fts, \
 #    IF(fts, "+XFTS", null) as userdb_imap_capability, \
 #    'Trash Spam' as 'namespace/inbox/mailbox', \
