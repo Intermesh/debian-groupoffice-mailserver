@@ -73,7 +73,8 @@ postconf -P "submission/inet/cleanup_service_name=subcleanup" && \
 /usr/bin/configure-groupoffice-mailserver.php && \
 usermod -a -G opendkim postfix && \
 mkdir -p /var/spool/postfix/opendkim && \
-chown opendkim:opendkim /var/spool/postfix/opendkim
+chown opendkim:opendkim /var/spool/postfix/opendkim && \
+chown www-data:www-data /var/lib/groupoffice
 
 invoke-rc.d postfix restart
 invoke-rc.d dovecot restart
