@@ -20,6 +20,7 @@ Depends:
   dovecot-managesieved,
   dovecot-fts-xapian,
   opendkim,
+  dnsutils,
   libopendbx1-mysql,
 	${misc:Depends},
 	${perl:Depends},
