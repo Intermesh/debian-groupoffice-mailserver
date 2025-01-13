@@ -24,7 +24,7 @@ COPY ./etc/dovecot/groupoffice-dict-sql.conf.ext /etc/dovecot/groupoffice-dict-s
 COPY ./etc/dovecot/groupoffice-domain-owner-sql.conf.ext /etc/dovecot/groupoffice-domain-owner-sql.conf.ext.tpl
 COPY ./etc/dovecot/virtual/All/dovecot-virtual /etc/dovecot/virtual/All/dovecot-virtual
 
-COPY ./usr/local/bin/quota-warning.sh /usr/local/bin/quota-warning.sh
+COPY ./usr/bin/quota-warning.sh /usr/bin/quota-warning.sh
 
 RUN mkdir -p /var/mail/vhosts && chown vmail:mail /var/mail/vhosts
 COPY ./var/mail/vhosts/default.sieve /var/mail/vhosts/default.sieve

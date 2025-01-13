@@ -1,8 +1,7 @@
 etc/dovecot etc
 etc/postfix etc
 etc/cron.d/groupoffice-mailserver etc/cron.d
-usr/local/bin/configure-groupoffice-mailserver.php usr/local/bin
-usr/local/bin/quota-warning.sh usr/local/bin
+usr/bin/ /usr
 var/mail/vhosts/default.sieve var/mail/vhosts
 var/lib/dovecot/db var/lib/dovecot
 etc/opendkim.conf.tpl etc
