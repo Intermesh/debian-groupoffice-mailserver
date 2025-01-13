@@ -70,7 +70,7 @@ postconf -P "subcleanup/unix/header_checks=regexp:/etc/postfix/submission_header
 postconf -P "submission/inet/smtpd_client_message_rate_limit=10" && \
 postconf -P "submission/inet/anvil_rate_time_unit=60s" && \
 postconf -P "submission/inet/cleanup_service_name=subcleanup" && \
-/usr/local/bin/configure-groupoffice-mailserver.php && \
+/usr/bin/configure-groupoffice-mailserver.php && \
 usermod -a -G opendkim postfix && \
 mkdir -p /var/spool/postfix/opendkim && \
 chown opendkim:opendkim /var/spool/postfix/opendkim
