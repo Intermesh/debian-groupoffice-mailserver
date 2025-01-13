@@ -9,6 +9,8 @@ ENV MYSQL_DATABASE groupoffice
 ENV MYSQL_HOST db
 ENV POSTMASTER_EMAIL postmaster@example.com
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update
 RUN apt-get install -y postfix postfix-mysql dovecot-imapd dovecot-mysql dovecot-lmtpd dovecot-sieve \
  dovecot-managesieved supervisor bash rsyslog nano dovecot-fts-xapian opendkim \
