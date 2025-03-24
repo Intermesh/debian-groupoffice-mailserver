@@ -13,7 +13,7 @@ patch=${BASH_REMATCH[3]};
 
 docker login
 docker buildx build --push --platform linux/amd64,linux/arm64 \
-  -t intermesh/groupoffice-mailserver:testing \
+  -t intermesh/groupoffice-mailserver:latest \
   -t intermesh/groupoffice-mailserver:$major.$minor \
   -t intermesh/groupoffice-mailserver:$major.$minor.$patch \
   .
