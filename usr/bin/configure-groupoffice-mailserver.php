@@ -51,16 +51,8 @@ replacePostfixCred($config, '/etc/postfix/mysql_virtual_mailbox_maps.cf');
 echo "Installing postfixadmin module in Group-Office\n";
 try{
 	require('/usr/share/groupoffice/GO.php');
-
-    \GO::setIgnoreAclPermissions();
-
-
-	if(\go\core\App::get()->isInstalled() && !\GO::modules()->isInstalled('postfixadmin')){
-		$module = new \GO\Base\Model\Module();
-		$module->name = 'postfixadmin';
-		if(!$module->save()) {
-			var_dump($module->getValidationErrors());
-		}	
+	if(\go\core\App::get()->isInstalled() && !go()->getModule("community", "maildomains")){
+        \go\modules\community\maildomains\Module::get()->install();
 	}
 }
 catch(\Exception $e){
