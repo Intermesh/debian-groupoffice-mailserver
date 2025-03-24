@@ -15,7 +15,7 @@ To build:
    ```
 3. run:
    ```
-	reprepro -b /var/www/build/groupoffice/build/deploy/reprepro/ include sixeight ../groupoffice-mailserver_6.8.4_amd64.changes
+	reprepro -b /var/www/build/groupoffice/build/deploy/reprepro/ include twentyfivezero ../groupoffice-mailserver_25.0.3_amd64.changes
    ```
    
 
