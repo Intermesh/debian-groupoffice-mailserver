@@ -5,6 +5,9 @@ set -e
 if [ -f /etc/postfix/groupoffice ]; then
   #update credentials. Needed after upgrading to 25.0
   /usr/bin/configure-groupoffice-mailserver.php
+  invoke-rc.d postfix restart
+  invoke-rc.d dovecot restart
+  invoke-rc.d opendkim restart
   exit 0
 fi
 
