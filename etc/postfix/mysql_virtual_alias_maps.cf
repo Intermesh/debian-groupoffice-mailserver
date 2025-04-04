@@ -2,7 +2,7 @@ user = groupoffice
 password = groupoffice
 hosts = localhost
 dbname = localhost
-table = pa_aliases
+table = community_maildomains_alias
 select_field = goto
 where_field = address
 additional_conditions = and active = '1'

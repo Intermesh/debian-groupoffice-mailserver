@@ -2,7 +2,7 @@ user = groupoffice
 password = groupoffice
 hosts = localhost
 dbname = localhost
-table = pa_mailboxes
+table = community_maildomains_mailbox
 select_field = maildir
 where_field = username
 additional_conditions = and active = '1'

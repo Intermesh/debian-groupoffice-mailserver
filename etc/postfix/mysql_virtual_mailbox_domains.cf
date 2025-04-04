@@ -3,7 +3,7 @@ password = groupoffice
 hosts = localhost
 dbname = localhost
 
-table = pa_domains
+table = community_maildomains_domain
 select_field = domain
 where_field = domain
 additional_conditions = and backupmx = '0' and active = '1'
