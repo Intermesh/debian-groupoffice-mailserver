@@ -1,5 +1,5 @@
-groupoffice-mailserver (25.0.5) twentyfivezero; urgency=medium
+groupoffice-mailserver (25.0.6) twentyfivezero; urgency=medium
 
-  * Changes can be found in /usr/share/groupoffice/changelog.md
+  * Changes can be found in /usr/share/groupoffice/CHANGELOG.md
 
- -- Intermesh BV (Developer key) <info@intermesh.nl>  Mon, 24 Mar 2025 15:00:00 +0100
+ -- Intermesh BV (Developer key) <info@intermesh.nl>  Mon, 05 Apr 2025 15:00:00 +0100
