@@ -56,6 +56,7 @@ postconf -e 'virtual_mailbox_maps = proxy:mysql:$config_directory/mysql_virtual_
 postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp' && \
 postconf -e 'default_destination_concurrency_limit = 5' && \
 postconf -e 'relay_destination_concurrency_limit = 1' && \
+postconf -e 'mydestination = localhost.localdomain, localhost' && \
 postconf -e 'message_size_limit = 20480000' && \
 postconf -e 'smtpd_milters = unix:opendkim/opendkim.sock' && \
 postconf -M submission/inet="submission   inet   n   -   n   -   -   smtpd" && \
