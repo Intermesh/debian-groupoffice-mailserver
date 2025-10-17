@@ -1,5 +1,8 @@
 require "fileinto";
-if header :contains "X-Spam-Flag" "YES" {
-  fileinto "Spam";
+# rule:[Spam]
+if anyof (header :contains "X-Spam-Flag" "YES")
+{
+	fileinto "Spam";
+	stop;
 }
 
