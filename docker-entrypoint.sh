@@ -1,28 +1,13 @@
 #!/bin/sh
 set -e
 
-
-cp /etc/dovecot/groupoffice-sql.conf.ext.tpl /etc/dovecot/groupoffice-sql.conf.ext
-sed -i 's/{dbHost}/'$MYSQL_HOST'/' /etc/dovecot/groupoffice-sql.conf.ext && \
-sed -i 's/{dbName}/'$MYSQL_DATABASE'/' /etc/dovecot/groupoffice-sql.conf.ext && \
-sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/dovecot/groupoffice-sql.conf.ext && \
-sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/dovecot/groupoffice-sql.conf.ext
-
-
-cp /etc/dovecot/groupoffice-dict-sql.conf.ext.tpl /etc/dovecot/groupoffice-dict-sql.conf.ext
-sed -i 's/{dbHost}/'$MYSQL_HOST'/' /etc/dovecot/groupoffice-dict-sql.conf.ext && \
-sed -i 's/{dbName}/'$MYSQL_DATABASE'/' /etc/dovecot/groupoffice-dict-sql.conf.ext && \
-sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/dovecot/groupoffice-dict-sql.conf.ext && \
-sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/dovecot/groupoffice-dict-sql.conf.ext
-
-cp /etc/dovecot/groupoffice-domain-owner-sql.conf.ext.tpl /etc/dovecot/groupoffice-domain-owner-sql.conf.ext
-sed -i 's/{dbHost}/'$MYSQL_HOST'/' /etc/dovecot/groupoffice-domain-owner-sql.conf.ext && \
-sed -i 's/{dbName}/'$MYSQL_DATABASE'/' /etc/dovecot/groupoffice-domain-owner-sql.conf.ext && \
-sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/dovecot/groupoffice-domain-owner-sql.conf.ext && \
-sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/dovecot/groupoffice-domain-owner-sql.conf.ext
-
 cp /etc/dovecot/conf.d/99-groupoffice.conf.tpl /etc/dovecot/conf.d/99-groupoffice.conf
 sed -i 's/postmaster_address = postmaster@localhost.localdomain/postmaster_address = '$POSTMASTER_EMAIL'/' /etc/dovecot/conf.d/99-groupoffice.conf
+sed -i 's/{dbHost}/'$MYSQL_HOST'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
+sed -i 's/{dbName}/'$MYSQL_DATABASE'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
+sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
+sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
+sed -i 's/{authAllowClearText}/'$DOVECOT_AUTH_ALLOW_CLEAR_TEXT'/' /etc/dovecot/conf.d/99-groupoffice.conf
 
 echo "user = ${MYSQL_USER}\n\
 password = ${MYSQL_PASSWORD}\n\

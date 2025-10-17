@@ -8,6 +8,7 @@ ENV MYSQL_PASSWORD groupoffice
 ENV MYSQL_DATABASE groupoffice
 ENV MYSQL_HOST db
 ENV POSTMASTER_EMAIL postmaster@example.com
+ENV DOVECOT_AUTH_ALLOW_CLEAR_TEXT = no
 
 ARG DEBIAN_FRONTEND=noninteractive
 

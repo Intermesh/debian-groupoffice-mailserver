@@ -42,6 +42,8 @@ services:
       - "1587:587"
     env_file:
       - ./db.env
+    environment:
+      DOVECOT_AUTH_ALLOW_CLEAR_TEXT: yes
 
 
 volumes:
