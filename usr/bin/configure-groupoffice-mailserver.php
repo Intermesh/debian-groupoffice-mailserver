@@ -16,13 +16,14 @@ function replaceDovecotCred($config, $file) {
 	$dovecotConnectStr = 'connect = "host='.$config['db_host'].' dbname='.$config['db_name'].' user='.$config['db_user'].' password='.$config['db_pass'].'"';
 
 	$data = file_get_contents($file);
-	$data = preg_replace('/connect = ".*"/', escape_backreference($dovecotConnectStr), $data);
+	$data = str_replace('{dbHost}', $config['db_host'], $data);
+    $data = str_replace('{dbName}', $config['db_name'], $data);
+    $data = str_replace('{dbUser}', $config['db_user'], $data);
+    $data = str_replace('{dbPass}', $config['db_pass'], $data);
+    $data = str_replace('{authAllowClearText}', "no", $data);
 	file_put_contents($file, $data);
 }
-
-replaceDovecotCred($config,'/etc/dovecot/groupoffice-sql.conf.ext');
-replaceDovecotCred($config,'/etc/dovecot/groupoffice-domain-owner-sql.conf.ext');
-replaceDovecotCred($config,'/etc/dovecot/groupoffice-dict-sql.conf.ext');
+replaceDovecotCred($config, '/etc/dovecot/conf.d/99-groupoffice.conf');
 
 copy("/etc/opendkim.conf.tpl", "/etc/opendkim.conf");
 
