@@ -1,0 +1,51 @@
+services:
+
+  groupoffice:
+    image: intermesh/groupoffice:latest
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - "db"
+    volumes:
+      - godata:/var/lib/groupoffice:delegated
+      - goetc:/etc/groupoffice/multi_instance:delegated
+    env_file:
+      - ./db.env
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  db:
+    image: mariadb:10.11
+    restart: always
+#    ports:
+#      - "8306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: groupoffice
+      MARIADB_AUTO_UPGRADE: 1
+    env_file:
+      - ./db.env
+    volumes:
+      - dbdata:/var/lib/mysql:delegated
+      - ~/Downloads:/root/Downloads:delegated # Useful for importing large dump files
+
+  mailserver:
+#    image: intermesh/groupoffice-mailserver:latest
+    ## When using local builds for testing:
+    build:
+       context: ./
+    restart: always
+#    ports:
+#      - "1143:143"
+#      - "14190:4190"
+#      - "125:25"
+#      - "1587:587"
+    env_file:
+      - ./db.env
+
+
+volumes:
+  godata:
+  goetc:
+  dbdata:
+  vmail:

@@ -1,7 +1,7 @@
 # For testing
 # DOCKER_BUILDKIT=0 && docker buildx build --load . -t intermesh/groupoffice-mailserver:latest
 
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 ENV MYSQL_USER groupoffice
 ENV MYSQL_PASSWORD groupoffice
@@ -21,9 +21,6 @@ RUN useradd -r -u 150 -g mail -d /var/mail/vhosts -m -s /sbin/nologin -c "Virtua
 
 # Dovecot config
 COPY ./etc/dovecot/conf.d/99-groupoffice.conf /etc/dovecot/conf.d/99-groupoffice.conf.tpl
-COPY ./etc/dovecot/groupoffice-sql.conf.ext /etc/dovecot/groupoffice-sql.conf.ext.tpl
-COPY ./etc/dovecot/groupoffice-dict-sql.conf.ext /etc/dovecot/groupoffice-dict-sql.conf.ext.tpl
-COPY ./etc/dovecot/groupoffice-domain-owner-sql.conf.ext /etc/dovecot/groupoffice-domain-owner-sql.conf.ext.tpl
 COPY ./etc/dovecot/virtual/All/dovecot-virtual /etc/dovecot/virtual/All/dovecot-virtual
 
 COPY ./usr/bin/quota-warning.sh /usr/bin/quota-warning.sh
@@ -106,9 +103,6 @@ EXPOSE 143
 EXPOSE 587
 EXPOSE 993
 EXPOSE 4190
-
-
-
 
 
 # for accessing socket local:/run/opendkim/opendkim.sock
