@@ -59,4 +59,17 @@ sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/opendkim.conf && \
 sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/opendkim.conf
 
 
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+# Clean up stale PID files from previous container run
+rm -f /run/rsyslogd.pid
+rm -f /var/run/dovecot/master.pid
+rm -f /var/spool/postfix/pid/master.pid
+rm -f /run/opendkim/opendkim.pid
+
+#containers don't have access to /proc/kmsg (kernel log) by default. You don't need kernel logging in a container anyway.
+sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
+
+# make sure run dir exists
+mkdir -p /var/run
+
+# Hand off to supervisord as PID 1 for docker
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

@@ -108,9 +108,6 @@ EXPOSE 993
 EXPOSE 4190
 
 
-
-
-
 # for accessing socket local:/run/opendkim/opendkim.sock
 RUN usermod -a -G opendkim postfix
 
