@@ -1,5 +1,6 @@
 # For testing
-# DOCKER_BUILDKIT=0 && docker buildx build --load . -t intermesh/groupoffice-mailserver:latest
+# DOCKER_BUILDKIT=0 && docker buildx build --load . -t intermesh/groupoffice-mailserver:testing
+# DOCKER_BUILDKIT=0 && docker compose build mailserver
 
 FROM debian:trixie-slim
 
