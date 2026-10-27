@@ -1,5 +1,5 @@
 # debian-groupoffice-mailserver
-Mailserver that uses virtual mail managed by Group-Office. More information can be found at https://www.group-office.com.
+Mailserver that uses virtual mail managed by GroupOffice. More information can be found at https://www.GroupOffice.com.
 
 Make sure you have the tools:
 
@@ -31,7 +31,7 @@ docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailser
 ## Docker
 The image is based on debian-slim and uses postfix, dovecot and opendkim.
 
-We use it in our Group-Office development stack:
+We use it in our GroupOffice development stack:
 
 https://github.com/Intermesh/docker-groupoffice-development
 
@@ -47,17 +47,17 @@ You can also run it with docker compose by cloning this repo and run:
 docker compose up -d
 ```
 
-Afterwards install group-office and the mail domains module. Then restart the mailserver.
+Afterwards install GroupOffice and the mail domains module. Then restart the mailserver.
 
 Environment variables:
 
-- `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`: The Group-Office database.
+- `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`: The GroupOffice database.
 - `POSTMASTER_EMAIL`: Sender of the quota warning mails.
 - `MAIL_HOSTNAME`: Public FQDN of the mailserver. Used in the SMTP greeting and HELO. Defaults to the container hostname.
-- `GROUPOFFICE_NETS`: IP addresses or networks of the Group-Office container, comma separated. Mailboxes without
-  "SMTP allowed" can only send mail from these, so their users can send with Group-Office but not with other mail
+- `GROUPOFFICE_NETS`: IP addresses or networks of the GroupOffice container, comma separated. Mailboxes without
+  "SMTP allowed" can only send mail from these, so their users can send with GroupOffice but not with other mail
   clients. These networks are also not rate limited on the submission port (10 messages per minute), because
-  Group-Office sends the mail of all users. When not set only localhost is allowed.
+  GroupOffice sends the mail of all users. When not set only localhost is allowed.
 
 ### Debian package
 The Debian package sets `GROUPOFFICE_NETS` for dovecot to the loopback and the addresses of the host in
