@@ -2,3 +2,4 @@
 nbproject
 debian/groupoffice-mailserver
 .idea
+.debhelper
