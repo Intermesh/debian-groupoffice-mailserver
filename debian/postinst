@@ -1,10 +1,45 @@
 #!/bin/sh
 set -e
 
+# Mailboxes without "SMTP allowed" can only send mail from the Group-Office webserver. Group-Office runs on this host
+# and connects from the loopback or, when it uses the public hostname, from one of the addresses of this host.
+# Only created once so the admin can change it with "systemctl edit dovecot".
+configure_groupoffice_nets() {
+  dropin=/etc/systemd/system/dovecot.service.d/groupoffice.conf
+  if [ ! -f $dropin ]; then
+    nets="127.0.0.0/8,::1"
+    for address in $(hostname -I 2>/dev/null); do
+      nets="$nets,$address"
+    done
+    mkdir -p $(dirname $dropin)
+    printf '[Service]\nEnvironment=GROUPOFFICE_NETS=%s\n' "$nets" > $dropin
+  fi
+  if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload
+  fi
+}
+
+# Postfix settings that are also applied when upgrading
+update_postfix() {
+  # Authenticated users may only send as their own mailbox or aliases that deliver to them
+  postconf -e 'smtpd_sender_login_maps = proxy:mysql:$config_directory/mysql_sender_login_maps.cf'
+  postconf -P "submission/inet/smtpd_sender_restrictions=reject_sender_login_mismatch"
+
+  # Removed obsolete settings
+  postconf -PX submission/inet/smtpd_sasl_local_domain submission/inet/anvil_rate_time_unit
+  postconf -X broken_sasl_auth_clients virtual_minimum_uid virtual_uid_maps virtual_gid_maps virtual_mailbox_base
+
+  # The maps contain the database password
+  chmod 640 /etc/postfix/mysql_*.cf
+  chgrp postfix /etc/postfix/mysql_*.cf
+}
+
 # only configure everything once
 if [ -f /etc/postfix/groupoffice ]; then
   #update credentials. Needed after upgrading to 25.0
   /usr/bin/configure-groupoffice-mailserver.php
+  update_postfix
+  configure_groupoffice_nets
   invoke-rc.d postfix restart
   invoke-rc.d dovecot restart
   invoke-rc.d opendkim restart
@@ -25,8 +60,6 @@ sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/do
 
 
 # Postfix config
-cp /etc/hostname /etc/mailname
-
 # SASL settings
 # This will make Postfix authenticate users via Dovecot. Users mail clients will connect directly to Postfix
 # for sending mail and we need them to authenticate.
@@ -41,17 +74,12 @@ postconf -e 'smtpd_sasl_authenticated_header = no' && \
 postconf -e 'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_non_fqdn_sender, reject_non_fqdn_recipient, reject_unauth_destination, reject_unauth_pipelining, reject_invalid_hostname, reject_unknown_sender_domain permit' && \
 postconf -e 'smtpd_data_restrictions = reject_unauth_pipelining, reject_multi_recipient_bounce, permit' && \
 postconf -e 'smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination' && \
-postconf -e 'smtpd_sasl_path = private/auth' && \
 postconf -e 'smtp_tls_security_level = may' && \
-postconf -e 'broken_sasl_auth_clients = yes' && \
-postconf -e 'virtual_minimum_uid = 150' && \
-postconf -e 'virtual_uid_maps = static:150' && \
-postconf -e 'virtual_gid_maps = static:8' && \
-postconf -e 'virtual_mailbox_base = /var/mail/vhosts' && \
 postconf -e 'virtual_alias_domains =' && \
 postconf -e 'virtual_alias_maps = proxy:mysql:$config_directory/mysql_virtual_alias_maps.cf' && \
 postconf -e 'virtual_mailbox_domains = proxy:mysql:$config_directory/mysql_virtual_mailbox_domains.cf' && \
 postconf -e 'virtual_mailbox_maps = proxy:mysql:$config_directory/mysql_virtual_mailbox_maps.cf' && \
+postconf -e 'smtpd_sender_login_maps = proxy:mysql:$config_directory/mysql_sender_login_maps.cf' && \
 postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp' && \
 postconf -e 'default_destination_concurrency_limit = 5' && \
 postconf -e 'relay_destination_concurrency_limit = 1' && \
@@ -65,21 +93,23 @@ postconf -P "submission/inet/smtpd_etrn_restrictions=reject" && \
 postconf -P "submission/inet/smtpd_sasl_type=dovecot" && \
 postconf -P "submission/inet/smtpd_sasl_path=private/auth" && \
 postconf -P "submission/inet/smtpd_sasl_security_options=noanonymous" && \
-postconf -P "submission/inet/smtpd_sasl_local_domain=$myhostname" && \
 postconf -P "submission/inet/smtpd_sasl_auth_enable=yes" && \
 postconf -P "submission/inet/milter_macro_daemon_name=ORIGINATING" && \
 postconf -P "submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject" && \
+postconf -P "submission/inet/smtpd_sender_restrictions=reject_sender_login_mismatch" && \
 postconf -P "submission/inet/smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject" && \
 postconf -M subcleanup/unix="subcleanup   unix n    -       -       -       0       cleanup" && \
 postconf -P "subcleanup/unix/header_checks=regexp:/etc/postfix/submission_header_checks" && \
 postconf -P "submission/inet/smtpd_client_message_rate_limit=10" && \
-postconf -P "submission/inet/anvil_rate_time_unit=60s" && \
 postconf -P "submission/inet/cleanup_service_name=subcleanup" && \
 /usr/bin/configure-groupoffice-mailserver.php && \
 usermod -a -G opendkim postfix && \
 mkdir -p /var/spool/postfix/opendkim && \
 chown opendkim:opendkim /var/spool/postfix/opendkim && \
 chown www-data:www-data /var/lib/groupoffice
+
+update_postfix
+configure_groupoffice_nets
 
 invoke-rc.d postfix restart
 invoke-rc.d dovecot restart

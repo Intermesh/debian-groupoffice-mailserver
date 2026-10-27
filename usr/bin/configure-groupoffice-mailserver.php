@@ -13,7 +13,7 @@ function escape_backreference($x){
 
 
 function replaceDovecotCred($config, $file) {
-	$dovecotConnectStr = 'connect = "host='.$config['db_host'].' dbname='.$config['db_name'].' user='.$config['db_user'].' password='.$config['db_pass'].'"';
+	//$dovecotConnectStr = 'connect = "host='.$config['db_host'].' dbname='.$config['db_name'].' user='.$config['db_user'].' password='.$config['db_pass'].'"';
 
 	$data = file_get_contents($file);
 	$data = str_replace('{dbHost}', $config['db_host'], $data);
@@ -49,6 +49,7 @@ function replacePostfixCred($config, $file) {
 replacePostfixCred($config, '/etc/postfix/mysql_virtual_alias_maps.cf');
 replacePostfixCred($config, '/etc/postfix/mysql_virtual_mailbox_domains.cf');
 replacePostfixCred($config, '/etc/postfix/mysql_virtual_mailbox_maps.cf');
+replacePostfixCred($config, '/etc/postfix/mysql_sender_login_maps.cf');
 
 echo "Installing postfixadmin module in Group-Office\n";
 try{

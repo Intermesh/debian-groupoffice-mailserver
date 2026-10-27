@@ -22,6 +22,11 @@ To build:
     reprepro -b /var/www/build/groupoffice/build/deploy/reprepro/ include testing ../groupoffice-mailserver_25.1.0_amd64.changes
    ```
    
+Build with docker locally inside this directory:
+
+```
+docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailserver debian:trixie bash -c 'apt-get update && apt-get install -y devscripts debhelper && debuild --no-lintian -b -us -uc'
+```
 
 ## Docker
 The image is based on debian-slim and uses postfix, dovecot and opendkim.
@@ -43,4 +48,20 @@ docker compose up -d
 ```
 
 Afterwards install group-office and the mail domains module. Then restart the mailserver.
+
+Environment variables:
+
+- `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`: The Group-Office database.
+- `POSTMASTER_EMAIL`: Sender of the quota warning mails.
+- `MAIL_HOSTNAME`: Public FQDN of the mailserver. Used in the SMTP greeting and HELO. Defaults to the container hostname.
+- `GROUPOFFICE_NETS`: IP addresses or networks of the Group-Office container, comma separated. Mailboxes without
+  "SMTP allowed" can only send mail from these, so their users can send with Group-Office but not with other mail
+  clients. These networks are also not rate limited on the submission port (10 messages per minute), because
+  Group-Office sends the mail of all users. When not set only localhost is allowed.
+
+### Debian package
+The Debian package sets `GROUPOFFICE_NETS` for dovecot to the loopback and the addresses of the host in
+`/etc/systemd/system/dovecot.service.d/groupoffice.conf`. Change it with `systemctl edit dovecot` and restart dovecot.
+The networks must be separated by commas without spaces.
+- `DOVECOT_AUTH_ALLOW_CLEAR_TEXT`: Set to "yes" to allow IMAP logins without TLS. For development only.
 

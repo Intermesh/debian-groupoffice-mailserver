@@ -1,0 +1,6 @@
+user = groupoffice
+password = groupoffice
+hosts = localhost
+dbname = localhost
+# The SASL logins that may use a sender address: the mailbox itself and everyone the alias delivers to
+query = SELECT username FROM community_maildomains_mailbox WHERE username = '%s' AND active = '1' UNION SELECT goto FROM community_maildomains_alias WHERE address = '%s' AND active = '1'

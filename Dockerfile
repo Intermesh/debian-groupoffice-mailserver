@@ -4,12 +4,17 @@
 
 FROM debian:trixie-slim
 
-ENV MYSQL_USER groupoffice
-ENV MYSQL_PASSWORD groupoffice
-ENV MYSQL_DATABASE groupoffice
-ENV MYSQL_HOST db
-ENV POSTMASTER_EMAIL postmaster@example.com
+ENV MYSQL_USER=groupoffice
+ENV MYSQL_PASSWORD=groupoffice
+ENV MYSQL_DATABASE=groupoffice
+ENV MYSQL_HOST=db
+ENV POSTMASTER_EMAIL=postmaster@example.com
 ENV DOVECOT_AUTH_ALLOW_CLEAR_TEXT=no
+# Public FQDN of the mailserver used in the SMTP greeting and HELO. Defaults to the container hostname.
+ENV MAIL_HOSTNAME=""
+# IP addresses or networks of the Group-Office container, comma separated. Mailboxes without "SMTP allowed" can only
+# send mail from these and they are not rate limited.
+ENV GROUPOFFICE_NETS=""
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -36,8 +41,7 @@ COPY ./etc/opendkim.conf.tpl /etc/opendkim.conf.tpl
 #disable default system auth because it slows down the login
 RUN sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
 
-# Postfix config
-RUN cp /etc/hostname /etc/mailname
+# Postfix config. myhostname and /etc/mailname are set by docker-entrypoint.sh
 
 COPY ./etc/postfix/submission_header_checks /etc/postfix/submission_header_checks
 
@@ -55,17 +59,12 @@ postconf -e 'smtpd_sasl_authenticated_header = no' && \
 postconf -e 'smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_non_fqdn_sender, reject_non_fqdn_recipient, reject_unauth_destination, reject_unauth_pipelining, reject_invalid_hostname, reject_unknown_sender_domain permit' && \
 postconf -e 'smtpd_data_restrictions = reject_unauth_pipelining, reject_multi_recipient_bounce, permit' && \
 postconf -e 'smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination' && \
-postconf -e 'smtpd_sasl_path = private/auth' && \
 postconf -e 'smtp_tls_security_level = may' && \
-postconf -e 'broken_sasl_auth_clients = yes' && \
-postconf -e 'virtual_minimum_uid = 150' && \
-postconf -e 'virtual_uid_maps = static:150' && \
-postconf -e 'virtual_gid_maps = static:8' && \
-postconf -e 'virtual_mailbox_base = /var/mail/vhosts' && \
 postconf -e 'virtual_alias_domains =' && \
 postconf -e 'virtual_alias_maps = proxy:mysql:$config_directory/mysql_virtual_alias_maps.cf' && \
 postconf -e 'virtual_mailbox_domains = proxy:mysql:$config_directory/mysql_virtual_mailbox_domains.cf' && \
 postconf -e 'virtual_mailbox_maps = proxy:mysql:$config_directory/mysql_virtual_mailbox_maps.cf' && \
+postconf -e 'smtpd_sender_login_maps = proxy:mysql:$config_directory/mysql_sender_login_maps.cf' && \
 postconf -e 'virtual_transport = lmtp:unix:private/dovecot-lmtp' && \
 postconf -e 'default_destination_concurrency_limit = 5' && \
 postconf -e 'relay_destination_concurrency_limit = 1' && \
@@ -79,15 +78,14 @@ postconf -P "submission/inet/smtpd_etrn_restrictions=reject" && \
 postconf -P "submission/inet/smtpd_sasl_type=dovecot" && \
 postconf -P "submission/inet/smtpd_sasl_path=private/auth" && \
 postconf -P "submission/inet/smtpd_sasl_security_options=noanonymous" && \
-postconf -P "submission/inet/smtpd_sasl_local_domain=$myhostname" && \
 postconf -P "submission/inet/smtpd_sasl_auth_enable=yes" && \
 postconf -P "submission/inet/milter_macro_daemon_name=ORIGINATING" && \
 postconf -P "submission/inet/smtpd_client_restrictions=permit_sasl_authenticated,reject" && \
+postconf -P "submission/inet/smtpd_sender_restrictions=reject_sender_login_mismatch" && \
 postconf -P "submission/inet/smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject" && \
 postconf -M subcleanup/unix="subcleanup   unix n    -       -       -       0       cleanup" && \
 postconf -P "subcleanup/unix/header_checks=regexp:/etc/postfix/submission_header_checks" && \
 postconf -P "submission/inet/smtpd_client_message_rate_limit=10" && \
-postconf -P "submission/inet/anvil_rate_time_unit=60s" && \
 postconf -P "submission/inet/cleanup_service_name=subcleanup"
 
 #header checks above will hide client IP and domain from outgoing mails

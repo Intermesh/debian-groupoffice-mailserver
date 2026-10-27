@@ -3,4 +3,5 @@ set -e
 
 if [ "$1" = "purge" ]; then
   rm -f /etc/postfix/groupoffice
+  rm -f /etc/systemd/system/dovecot.service.d/groupoffice.conf
 fi

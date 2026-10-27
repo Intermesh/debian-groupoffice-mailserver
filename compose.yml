@@ -14,6 +14,10 @@ services:
       - ./db.env
     extra_hosts:
       - host.docker.internal:host-gateway
+    networks:
+      default:
+        # Fixed so the mailserver can allow it in GROUPOFFICE_NETS
+        ipv4_address: 172.28.0.10
 
   db:
     image: mariadb:10.11
@@ -48,7 +52,15 @@ services:
     environment:
       # For development / testing only
       DOVECOT_AUTH_ALLOW_CLEAR_TEXT: yes
+      MAIL_HOSTNAME: mailserver.localdomain
+      # The fixed IP of the groupoffice service
+      GROUPOFFICE_NETS: 172.28.0.10
 
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
 
 volumes:
   godata:
