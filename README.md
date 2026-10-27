@@ -11,7 +11,7 @@ To build:
 1. Edit debian/changelog with version and repo ("sixeight", "testing" etc.).
 2. run inside directory:
    ```
-   debuild --no-lintian -b
+   debuild --no-lintian -A
    ```
 3. run:
    ```
@@ -24,8 +24,17 @@ To build:
 
 Build with docker (Replace /Volumes/Projects with your output dir):
 
+Create the build image once (repeat to update it):
+
 ```
-docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailserver debian:trixie bash -c 'apt-get update && apt-get install -y devscripts debhelper && debuild --no-lintian -b -us -uc'
+docker build -t groupoffice-debbuild - <<'EOF'
+FROM debian:trixie
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential devscripts debhelper fakeroot && rm -rf /var/lib/apt/lists/*
+EOF
+```
+
+```
+docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailserver groupoffice-debbuild debuild --no-lintian -b -us -uc'
 ```
 
 ## Docker
