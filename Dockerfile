@@ -9,7 +9,7 @@ ENV MYSQL_PASSWORD groupoffice
 ENV MYSQL_DATABASE groupoffice
 ENV MYSQL_HOST db
 ENV POSTMASTER_EMAIL postmaster@example.com
-ENV DOVECOT_AUTH_ALLOW_CLEAR_TEXT = no
+ENV DOVECOT_AUTH_ALLOW_CLEAR_TEXT=no
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -35,11 +35,6 @@ COPY ./etc/opendkim.conf.tpl /etc/opendkim.conf.tpl
 
 #disable default system auth because it slows down the login
 RUN sed -i 's/!include auth-system.conf.ext/#!include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
-
-#IMAP Acl
-RUN mkdir -p /var/lib/dovecot/db && \
-  touch /var/lib/dovecot/db/shared-mailboxes.db && \
-  chown -R vmail:mail /var/lib/dovecot/db
 
 # Postfix config
 RUN cp /etc/hostname /etc/mailname

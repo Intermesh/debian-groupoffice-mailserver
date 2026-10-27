@@ -17,9 +17,10 @@ function replaceDovecotCred($config, $file) {
 
 	$data = file_get_contents($file);
 	$data = str_replace('{dbHost}', $config['db_host'], $data);
-    $data = str_replace('{dbName}', $config['db_name'], $data);
-    $data = str_replace('{dbUser}', $config['db_user'], $data);
-    $data = str_replace('{dbPass}', $config['db_pass'], $data);
+    // These values are inside double quotes in the dovecot config
+    $data = str_replace('{dbName}', addcslashes($config['db_name'], '"\\'), $data);
+    $data = str_replace('{dbUser}', addcslashes($config['db_user'], '"\\'), $data);
+    $data = str_replace('{dbPass}', addcslashes($config['db_pass'], '"\\'), $data);
     $data = str_replace('{authAllowClearText}', "no", $data);
 	file_put_contents($file, $data);
 }

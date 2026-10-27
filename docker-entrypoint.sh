@@ -1,13 +1,24 @@
 #!/bin/sh
 set -e
 
-cp /etc/dovecot/conf.d/99-groupoffice.conf.tpl /etc/dovecot/conf.d/99-groupoffice.conf
-sed -i 's/postmaster_address = postmaster@localhost.localdomain/postmaster_address = '$POSTMASTER_EMAIL'/' /etc/dovecot/conf.d/99-groupoffice.conf
-sed -i 's/{dbHost}/'$MYSQL_HOST'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
-sed -i 's/{dbName}/'$MYSQL_DATABASE'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
-sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
-sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/dovecot/conf.d/99-groupoffice.conf && \
-sed -i 's/{authAllowClearText}/'$DOVECOT_AUTH_ALLOW_CLEAR_TEXT'/' /etc/dovecot/conf.d/99-groupoffice.conf
+# Escape a value for use in the replacement of a sed s|||  command
+sed_escape() {
+  printf '%s' "$1" | sed -e 's/[\\|&]/\\&/g'
+}
+
+# Escape a value for use in a double-quoted dovecot setting and then for sed
+dovecot_escape() {
+  sed_escape "$(printf '%s' "$1" | sed -e 's/[\\"]/\\&/g')"
+}
+
+DOVECOT_CONF=/etc/dovecot/conf.d/99-groupoffice.conf
+cp /etc/dovecot/conf.d/99-groupoffice.conf.tpl "$DOVECOT_CONF"
+sed -i "s|postmaster_address = postmaster@localhost.localdomain|postmaster_address = $(sed_escape "$POSTMASTER_EMAIL")|" "$DOVECOT_CONF"
+sed -i "s|{dbHost}|$(sed_escape "$MYSQL_HOST")|" "$DOVECOT_CONF"
+sed -i "s|{dbName}|$(dovecot_escape "$MYSQL_DATABASE")|" "$DOVECOT_CONF"
+sed -i "s|{dbUser}|$(dovecot_escape "$MYSQL_USER")|" "$DOVECOT_CONF"
+sed -i "s|{dbPass}|$(dovecot_escape "$MYSQL_PASSWORD")|" "$DOVECOT_CONF"
+sed -i "s|{authAllowClearText}|$(sed_escape "$DOVECOT_AUTH_ALLOW_CLEAR_TEXT")|" "$DOVECOT_CONF"
 
 echo "user = ${MYSQL_USER}\n\
 password = ${MYSQL_PASSWORD}\n\
@@ -38,10 +49,10 @@ additional_conditions = and active = '1'" > /etc/postfix/mysql_virtual_mailbox_m
 
 
 cp /etc/opendkim.conf.tpl /etc/opendkim.conf
-sed -i 's/{dbHost}/'$MYSQL_HOST'/' /etc/opendkim.conf && \
-sed -i 's/{dbName}/'$MYSQL_DATABASE'/' /etc/opendkim.conf && \
-sed -i 's/{dbUser}/'$MYSQL_USER'/' /etc/opendkim.conf && \
-sed -i 's/{dbPass}/'$MYSQL_PASSWORD'/' /etc/opendkim.conf
+sed -i "s|{dbHost}|$(sed_escape "$MYSQL_HOST")|" /etc/opendkim.conf
+sed -i "s|{dbName}|$(sed_escape "$MYSQL_DATABASE")|" /etc/opendkim.conf
+sed -i "s|{dbUser}|$(sed_escape "$MYSQL_USER")|" /etc/opendkim.conf
+sed -i "s|{dbPass}|$(sed_escape "$MYSQL_PASSWORD")|" /etc/opendkim.conf
 
 
 # Clean up stale PID files from previous container run
