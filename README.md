@@ -21,8 +21,8 @@ To build:
    ```
     reprepro -b /var/www/build/groupoffice/build/deploy/reprepro/ include testing ../groupoffice-mailserver_25.1.0_amd64.changes
    ```
-   
-Build with docker locally inside this directory:
+
+Build with docker (Replace /Volumes/Projects with your output dir):
 
 ```
 docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailserver debian:trixie bash -c 'apt-get update && apt-get install -y devscripts debhelper && debuild --no-lintian -b -us -uc'
