@@ -34,7 +34,7 @@ EOF
 ```
 
 ```
-docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailserver groupoffice-debbuild debuild --no-lintian -b -us -uc'
+docker run --rm -v /Volumes/Projects:/build -w /build/debian-groupoffice-mailserver groupoffice-debbuild debuild --no-lintian -b -us -uc
 ```
 
 ## Docker
