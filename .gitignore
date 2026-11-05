@@ -2,3 +2,10 @@
 nbproject
 debian/groupoffice-mailserver
 .idea
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/*.substvars
+debian/*.debhelper
+debian/*.debhelper.log
+debian/groupoffice-mailserver-antispam/
